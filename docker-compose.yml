@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_tmdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: tmdb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: nest_tmdb_app
+    ports:
+      - "8080:3000"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DATABASE: tmdb
+      TMDB_API_TOKEN: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMzVkYzk0NWQ4ZDk5MTM2ZDYwNWZkYmU4ZmMwMDAyYiIsIm5iZiI6MTc1Mzg4MTc0OC40NjIwMDAxLCJzdWIiOiI2ODhhMWM5NDQ1NzE4ZjVhMjhlMTNiMzkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.R5tdCNEoYpD8Xk2TvC2f444A-hJtN4ZEXAdcHlQWaks"
+      TMDB_API_KEY: "e35dc945d8d99136d605fdbe8fc0002b"
+      TMDB_API_URL: "https://api.themoviedb.org/3"
+      JWT_SECRET_KEY: "TMDB@Service#App"
+      JWT_EXPIRE_MS: "3600"
+      IGNORE_JWT_EXPIRE: "false"
+      AXIOS_TIMEOUT: "5000"
+      AXIOS_REDIRECTS: "5"
+      ENCRIPT_KEY: "AqVcYq1t6w2z$C&F)v@NcQfTzWnZr4u5"
+      ENCRIPT_IV: "67207A2443264321"
+    command: npm run start:prod
+
+volumes:
+  db_data:

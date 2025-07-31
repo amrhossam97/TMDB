@@ -1,0 +1,21 @@
+{
+  "type": "postgres",
+  "host": "127.0.0.1",
+  "port": 5436,
+  "username": "postgres",
+  "password": "mysecretpassword",
+  "database": "tmdb",
+  "logging": true,
+  "logger": "simple-console",
+  "migrationsTableName": "migration",
+  "migrationsRun": true,
+  "entities": [
+    "D:\\TMDB\\code\\TMDB\\src\\config/../database/entity/*.entity.ts",
+    "D:\\TMDB\\code\\TMDB\\src\\config/../database/entity/*.entity.js"
+  ],
+  "migrations": [
+    "D:\\TMDB\\code\\TMDB\\src\\config/../database/migration/*.ts",
+    "D:\\TMDB\\code\\TMDB\\src\\config/../database/migration/*.js"
+  ],
+  "ssl": false
+}
