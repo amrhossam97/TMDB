@@ -3,11 +3,10 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { JwtStrategy } from "@root/common/strategies/jwt.strategy";
 import { User } from "@root/database/entity/users.entity";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-// import { BasicStrategy } from '@root/common/strategies/basic.strategy';
-import { JwtStrategy } from "@root/common/strategies/jwt.strategy";
 
 @Module({
   imports: [

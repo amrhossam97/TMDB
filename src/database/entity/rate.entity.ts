@@ -8,6 +8,9 @@ export class Rating extends BaseEntity {
   @Column({ type: "float" })
   score: number;
 
+  @Column({ type: "text" })
+  comment: string;
+
   @ManyToOne(() => User, (user) => user.ratings)
   user: User;
 

@@ -9,10 +9,12 @@ import { JwtStrategy } from "@root/common/strategies/jwt.strategy";
 import { Movie } from "@root/database/entity/movies.entity";
 import { Genre } from "@root/database/entity/genre.entity";
 import { TMDBService } from "../TMDB/TMDB.service";
+import { WatchList } from "@root/database/entity/watchList.entity";
+import { User } from "@root/database/entity/users.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Movie, Genre]),
+    TypeOrmModule.forFeature([Movie, Genre, WatchList, User]),
     PassportModule,
     JwtModule.register({
       secret: `${process.env.JWT_SECRET_KEY}`,

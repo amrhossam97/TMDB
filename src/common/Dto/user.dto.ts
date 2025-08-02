@@ -35,7 +35,7 @@ export class RegisterDto {
 }
 export class ForgetPasswordDTO {
   @ApiProperty({ type: "string", example: "+201095047883" })
-  @IsPhoneNumber("SA")
+  @IsPhoneNumber()
   phone: string;
 }
 export class UpdateUserPhoneDTO {
@@ -50,7 +50,7 @@ export class UpdateUserPhoneDTO {
   userName: string;
 
   @ApiProperty({ name: "phone", type: "string", example: "+201095047883" })
-  @IsPhoneNumber("SA")
+  @IsPhoneNumber()
   @IsOptional()
   phoneNumber: string;
 }

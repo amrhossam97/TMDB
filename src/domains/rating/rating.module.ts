@@ -3,16 +3,18 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { GenresController } from "./genres.controller";
-import { GenresService } from "./genres.service";
+import { RatingController } from "./rating.controller";
+import { RatingService } from "./rating.service";
 import { JwtStrategy } from "@root/common/strategies/jwt.strategy";
 import { Movie } from "@root/database/entity/movies.entity";
 import { Genre } from "@root/database/entity/genre.entity";
-import { RedisService } from "@root/common/redis/redis.services";
+import { TMDBService } from "../TMDB/TMDB.service";
+import { User } from "@root/database/entity/users.entity";
+import { Rating } from "@root/database/entity/rate.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Genre]),
+    TypeOrmModule.forFeature([Movie, Genre, User, Rating]),
     PassportModule,
     JwtModule.register({
       secret: `${process.env.JWT_SECRET_KEY}`,
@@ -23,8 +25,8 @@ import { RedisService } from "@root/common/redis/redis.services";
       maxRedirects: +process.env.AXIOS_REDIRECTS,
     }),
   ],
-  controllers: [GenresController],
-  providers: [GenresService, JwtStrategy, RedisService],
-  exports: [GenresService],
+  controllers: [RatingController],
+  providers: [RatingService, JwtStrategy, TMDBService],
+  exports: [RatingService],
 })
-export class GenresModule {}
+export class RatingModule {}

@@ -16,18 +16,16 @@ export class SyncMoviesCronJob {
   @Cron("0 0 * * *")
   async syncMovies() {
     const popularMovies = await this.tmdbService.getTMDBPopularMovies();
-    console.log({ popularMovies });
 
     for (let movie of popularMovies.results) {
       await this.moviesService.createOrSyncMovie(movie);
     }
   }
   // @Cron("* * * * *")
-  @Cron('0 0 1 * *')
+  @Cron("0 0 1 * *")
   async syncGenres() {
     const genres = await this.tmdbService.getTMDBGenre();
-    console.log({ genres });
-    for(let genre of genres.genres) {
+    for (let genre of genres.genres) {
       await this.genresService.createOrSyncGenre(genre);
     }
   }

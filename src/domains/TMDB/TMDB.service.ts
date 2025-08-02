@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable } from "@nestjs/common";
-import { GenreDto, GenresResponseDto } from "@root/common/Dto/genre.dto";
-import { MovieDto, MoviesResponseDto } from "@root/common/Dto/movie.dto";
+import { GenresResponseDto } from "@root/common/Dto/genre.dto";
+import { MoviesResponseDto } from "@root/common/Dto/movie.dto";
 import { HandleErrorMessage } from "@root/common/exceptions/error-filter";
 import { firstValueFrom } from "rxjs";
 
@@ -12,7 +12,7 @@ export class TMDBService {
   TMDB_IMAGE_URL = process.env.TMDB_IMAGE_URL;
   TMDB_Token = process.env.TMDB_API_TOKEN;
   TMDB_KEY = process.env.TMDB_API_KEY;
-  
+
   async getTMDBPopularMovies(page: number = 1): Promise<MoviesResponseDto> {
     const url = `${this.baseURL}/movie/popular`;
     const headers = {
@@ -28,9 +28,11 @@ export class TMDBService {
       );
       return response.data;
     } catch (e) {
-      console.log(e);
-
-      throw new HttpException(HandleErrorMessage(e), e.response?.status || 500);
+      e.response.message = e.response.message
+        ? e.response.message
+        : "Error fetching popular movies";
+      if (e instanceof HttpException) throw e;
+      throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
   async getTMDBGenre(): Promise<GenresResponseDto> {
@@ -47,7 +49,12 @@ export class TMDBService {
       );
       return response.data;
     } catch (e) {
-      throw new HttpException(HandleErrorMessage(e), e.response?.status || 500);
+      e.response.message = e.response.message
+        ? e.response.message
+        : "Error fetching genres";
+
+      if (e instanceof HttpException) throw e;
+      throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
   async getTMDBImagePath(imgPath: string): Promise<string> {

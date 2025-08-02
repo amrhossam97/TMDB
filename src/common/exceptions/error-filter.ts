@@ -1,5 +1,4 @@
 const removeLocalErrorMessage = (error) => {
-  console.log('Errrrrorrr :', error.response);
   let e = '';
   if (error.response) {
     if(typeof error.response == 'string') e = error.response
@@ -18,5 +17,4 @@ const removeLocalErrorMessage = (error) => {
 
 export const HandleErrorMessage = (error: any) => {
   return removeLocalErrorMessage(error);
-  // return error
 };

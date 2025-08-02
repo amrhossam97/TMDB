@@ -1,8 +1,8 @@
-import { Transport } from '@nestjs/microservices';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-const fs = require('fs');
+import { Transport } from "@nestjs/microservices";
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+const fs = require("fs");
 
-require('dotenv').config();
+require("dotenv").config();
 
 class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
@@ -22,8 +22,8 @@ class ConfigService {
   }
 
   public isProduction() {
-    const mode = this.getValue('MODE_APP', false);
-    if (mode === 'DEV' || mode === 'LOCAL') return false;
+    const mode = this.getValue("MODE_APP", false);
+    if (mode === "DEV" || mode === "LOCAL") return false;
     return true;
   }
   public getAxiosConfig(): Object {
@@ -32,29 +32,34 @@ class ConfigService {
       maxRedirects: process.env.AXIOS_TIMEOUTAXIOS_REDIRECTS,
     };
   }
-
+  public getRedisConfig() {
+    return {
+      host: this.getValue("REDIS_HOST"),
+      port: parseInt(this.getValue("REDIS_PORT")),
+    };
+  }
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
-      type: 'postgres',
-      host: this.getValue('POSTGRES_HOST'),
-      port: parseInt(this.getValue('POSTGRES_PORT')),
-      username: this.getValue('POSTGRES_USER'),
-      password: this.getValue('POSTGRES_PASSWORD'),
-      database: this.getValue('POSTGRES_DATABASE'),
-      logging: !!this.getValue('LOGGING'),
-      logger: 'simple-console',
-      migrationsTableName: 'migration',
+      type: "postgres",
+      host: this.getValue("POSTGRES_HOST"),
+      port: parseInt(this.getValue("POSTGRES_PORT")),
+      username: this.getValue("POSTGRES_USER"),
+      password: this.getValue("POSTGRES_PASSWORD"),
+      database: this.getValue("POSTGRES_DATABASE"),
+      logging: !!this.getValue("LOGGING"),
+      logger: "simple-console",
+      migrationsTableName: "migration",
       migrationsRun: true,
       entities: [
-        __dirname + '/../database/entity/*.entity.ts',
-        __dirname + '/../database/entity/*.entity.js',
+        __dirname + "/../database/entity/*.entity.ts",
+        __dirname + "/../database/entity/*.entity.js",
       ],
       migrations: [
-        __dirname + '/../database/migration/*.ts',
-        __dirname + '/../database/migration/*.js',
+        __dirname + "/../database/migration/*.ts",
+        __dirname + "/../database/migration/*.js",
       ],
       ssl:
-        process.env.DB_SSL == 'production'
+        process.env.DB_SSL == "production"
           ? {
               rejectUnauthorized: false,
               ca: process.env.CA_DB,
@@ -65,11 +70,11 @@ class ConfigService {
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  'POSTGRES_HOST',
-  'POSTGRES_PORT',
-  'POSTGRES_USER',
-  'POSTGRES_PASSWORD',
-  'POSTGRES_DATABASE',
+  "POSTGRES_HOST",
+  "POSTGRES_PORT",
+  "POSTGRES_USER",
+  "POSTGRES_PASSWORD",
+  "POSTGRES_DATABASE",
 ]);
 
 export { configService };

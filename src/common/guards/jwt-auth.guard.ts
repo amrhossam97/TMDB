@@ -2,13 +2,13 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { AuthGuard } from '@nestjs/passport';
-import { IS_PUBLIC_KEY } from '../decorateros';
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { AuthGuard } from "@nestjs/passport";
+import { IS_PUBLIC_KEY } from "../decorateros";
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard extends AuthGuard("jwt") {
   constructor(private reflector: Reflector) {
     super();
   }
@@ -21,15 +21,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       return true;
     }
 
-    // Add your custom authentication logic here
-    // for example, call super.logIn(request) to establish a session.
-
     return super.canActivate(context);
   }
   handleRequest(err, user, info) {
-    // You can throw an exception based on either "info" or "err" arguments
     if (err || !user) {
-      throw err || new UnauthorizedException('برجاء تسجيل الدخول اولا');
+      throw err || new UnauthorizedException("Unauthorized access");
     }
     return user;
   }

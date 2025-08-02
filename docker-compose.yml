@@ -1,6 +1,12 @@
 version: "3.8"
 
 services:
+  redis:
+    image: redis:7
+    container_name: redis_tmdb
+    restart: always
+    ports:
+      - "6379:6379"
   db:
     image: postgres:15
     container_name: postgres_tmdb
@@ -35,8 +41,10 @@ services:
       IGNORE_JWT_EXPIRE: "false"
       AXIOS_TIMEOUT: "5000"
       AXIOS_REDIRECTS: "5"
-      ENCRIPT_KEY: "AqVcYq1t6w2z$C&F)v@NcQfTzWnZr4u5"
+      ENCRIPT_KEY: "AqVcYq1t6w2z#C&F)v@NcQfTzWnZr4u5"
       ENCRIPT_IV: "67207A2443264321"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     command: npm run start:prod
 
 volumes:

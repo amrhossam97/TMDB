@@ -3,7 +3,7 @@ import {
   BadRequestException,
   HttpException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -45,6 +45,7 @@ export class AuthService {
       await this.userRepo.save(user);
       return true;
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
@@ -70,7 +71,8 @@ export class AuthService {
       // #Encrypt
       const iv = process.env.ENCRIPT_IV;
       const password = process.env.ENCRIPT_KEY;
-
+      console.log({iv, password});
+      
       const payload = {
         userName: Encript(user.userName, password, iv),
         userPhone: Encript(user.phoneNumber, password, iv),
@@ -86,6 +88,7 @@ export class AuthService {
         phoneNumber: user.phoneNumber,
       };
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
@@ -100,6 +103,7 @@ export class AuthService {
       await this.userRepo.update(user.id, user);
       return true;
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
@@ -121,14 +125,16 @@ export class AuthService {
       let newUser = await this.userRepo.save(user);
       return { id: newUser.id };
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
   async confirmChangePass(body: ConfirmChangePasswordDTO) {
     try {
-      await User.checkPassword(body.password);
       let user = await this.userRepo.findOne({ where: { id: body.userId } });
       if (!user) throw new NotFoundException("User Not Found");
+      await User.checkPassword(body.password);
+
       if (user.reset_code != body.code)
         throw new BadRequestException("Wrong Code");
       user.reset_code = null;
@@ -136,6 +142,7 @@ export class AuthService {
       await this.userRepo.update(user.id, user);
       return true;
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
@@ -153,6 +160,7 @@ export class AuthService {
       await this.userRepo.update(user.id, user);
       return user.id;
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }
@@ -173,6 +181,7 @@ export class AuthService {
       } else throw new BadRequestException("Invalid Type");
       return user.id;
     } catch (e) {
+      if (e instanceof HttpException) throw e;
       throw new HttpException(HandleErrorMessage(e), e.status ? e.status : 500);
     }
   }

@@ -14,7 +14,7 @@ export class VerifyDTO{
 }
 export class ReVerifyDTO{
     @ApiProperty({example: '+201095047883'})
-    @IsPhoneNumber('SA')
+    @IsPhoneNumber()
     phone:string;
 }
 export class AddRegisterationTokenDTO{

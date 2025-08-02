@@ -42,8 +42,6 @@ export class AuthController {
   @Post("/confirm-change-password")
   @ApiTags("Auth")
   async confirmChangePass(@Body() body: ConfirmChangePasswordDTO) {
-    console.log({ body });
-
     const result = await this.authService.confirmChangePass(body);
     return { message: "Password Changed Successfully", result };
   }
