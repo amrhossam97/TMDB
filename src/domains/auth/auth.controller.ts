@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserDecorator } from "@root/common/decorateros";
 import { AuthBearer } from "@root/common/decorateros/auth.decorator";
+import { ConfirmChangePasswordDTO } from "@root/common/Dto/change-password.dto";
 import {
   ForgetPasswordDTO,
   RegisterDto,
@@ -9,11 +10,9 @@ import {
 } from "@root/common/Dto/user.dto";
 import {
   ResendCodeDTO,
-  ReVerifyDTO,
-  VerifyDTO,
+  VerifyDTO
 } from "@root/common/Dto/verify.dto";
 import { AuthService } from "./auth.service";
-import { ConfirmChangePasswordDTO } from "@root/common/Dto/change-password.dto";
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

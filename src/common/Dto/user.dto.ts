@@ -1,9 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString } from "class-validator";
+import {
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from "class-validator";
 
 export class UserLoginDto {
   @ApiProperty({ name: "phone", type: "string", example: "+201095047883" })
-  @IsPhoneNumber('SA')
+  @IsPhoneNumber()
   phone: string;
 
   @ApiProperty({ format: "password", example: "amr@1234" })
@@ -11,8 +17,12 @@ export class UserLoginDto {
   password?: string;
 }
 export class RegisterDto {
-  @ApiProperty({ name: "phoneNumber", type: "string", example: "+201095047883" })
-  @IsPhoneNumber('SA')
+  @ApiProperty({
+    name: "phoneNumber",
+    type: "string",
+    example: "+201095047883",
+  })
+  @IsPhoneNumber()
   phoneNumber: string;
 
   @ApiProperty({ required: true, format: "password", example: "amr@1234" })
@@ -22,24 +32,13 @@ export class RegisterDto {
   @ApiProperty({ example: "amr hossam" })
   @IsString()
   userName: string;
-
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  @IsOptional()
-  cityId:number;
-
-  @ApiProperty({ example: "Abc12345" })
-  @IsString()
-  @IsOptional()
-  friend_code: string;
 }
 export class ForgetPasswordDTO {
   @ApiProperty({ type: "string", example: "+201095047883" })
-  @IsPhoneNumber('SA')
+  @IsPhoneNumber("SA")
   phone: string;
 }
 export class UpdateUserPhoneDTO {
-
   @ApiProperty({ example: "amr@amin.com" })
   @IsString()
   @IsOptional()
@@ -48,10 +47,10 @@ export class UpdateUserPhoneDTO {
   @ApiProperty({ example: "amr hossam" })
   @IsString()
   @IsOptional()
-  userName:string;
+  userName: string;
 
   @ApiProperty({ name: "phone", type: "string", example: "+201095047883" })
-  @IsPhoneNumber('SA')
+  @IsPhoneNumber("SA")
   @IsOptional()
   phoneNumber: string;
 }

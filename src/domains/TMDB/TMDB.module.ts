@@ -2,8 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AuthService } from './TMDB.service';
-// import { BasicStrategy } from '@root/common/strategies/basic.strategy';
+import { TMDBService } from './TMDB.service';
 import { JwtStrategy } from '@root/common/strategies/jwt.strategy';
 
 @Module({
@@ -19,7 +18,7 @@ import { JwtStrategy } from '@root/common/strategies/jwt.strategy';
     }),
   ],
   controllers:[],
-  providers: [AuthService, JwtStrategy ],
-  exports: [AuthService],
+  providers: [TMDBService, JwtStrategy ],
+  exports: [TMDBService],
 })
-export class AuthModule {}
+export class TMDBModule {}

@@ -1,18 +1,22 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable } from "@nestjs/common";
+import { GenreDto, GenresResponseDto } from "@root/common/Dto/genre.dto";
+import { MovieDto, MoviesResponseDto } from "@root/common/Dto/movie.dto";
 import { HandleErrorMessage } from "@root/common/exceptions/error-filter";
 import { firstValueFrom } from "rxjs";
 
 @Injectable()
-export class AuthService {
+export class TMDBService {
   constructor(private httpService: HttpService) {}
   baseURL = process.env.TMDB_API_URL;
+  TMDB_IMAGE_URL = process.env.TMDB_IMAGE_URL;
   TMDB_Token = process.env.TMDB_API_TOKEN;
-
-  async getTMDBPopularMovies(page: number = 1) {
+  TMDB_KEY = process.env.TMDB_API_KEY;
+  
+  async getTMDBPopularMovies(page: number = 1): Promise<MoviesResponseDto> {
     const url = `${this.baseURL}/movie/popular`;
     const headers = {
-      api_key: this.TMDB_Token,
+      Authorization: `Bearer ${this.TMDB_Token}`,
     };
     const params = {
       page: page,
@@ -22,17 +26,17 @@ export class AuthService {
       const response = await firstValueFrom(
         this.httpService.get(url, { headers, params })
       );
-      console.log(response);
-
       return response.data;
     } catch (e) {
+      console.log(e);
+
       throw new HttpException(HandleErrorMessage(e), e.response?.status || 500);
     }
   }
-  async getTMDBGenre() {
+  async getTMDBGenre(): Promise<GenresResponseDto> {
     const url = `${this.baseURL}/genre/movie/list`;
     const headers = {
-      api_key: this.TMDB_Token,
+      Authorization: `Bearer ${this.TMDB_Token}`,
     };
     const params = {
       language: "en",
@@ -41,11 +45,12 @@ export class AuthService {
       const response = await firstValueFrom(
         this.httpService.get(url, { headers, params })
       );
-      console.log(response);
-
       return response.data;
     } catch (e) {
       throw new HttpException(HandleErrorMessage(e), e.response?.status || 500);
     }
+  }
+  async getTMDBImagePath(imgPath: string): Promise<string> {
+    return `${this.TMDB_IMAGE_URL}${imgPath}`;
   }
 }

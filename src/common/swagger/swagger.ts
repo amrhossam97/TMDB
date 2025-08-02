@@ -14,13 +14,6 @@ export function createDocument(app: INestApplication): OpenAPIObject {
     .setDescription(SWAGGER_CONFIG.description)
     .addBearerAuth({in:'header', type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'access-token')
     .addBasicAuth({in:'header', type: 'http' },'basic-auth')
-    .addGlobalParameters({
-      name: 'lang',
-      in: 'query',
-      required: true,
-      description: 'Language parameter (en, ar)',
-      schema: { type: 'string', default: 'ar' },
-    })
     .setVersion(SWAGGER_CONFIG.version);
   for (const tag of SWAGGER_CONFIG.tags) {
     builder.addTag(tag);

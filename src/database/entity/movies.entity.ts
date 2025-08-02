@@ -12,11 +12,23 @@ export class Movie extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: "text" })
   overview: string;
 
-  @Column()
+  @Column({ type: "date" })
   releaseDate: Date;
+
+  @Column()
+  backdropPath: string;
+
+  @Column()
+  posterPath: string;
+
+  @Column()
+  originalLanguage: string;
+
+  @Column()
+  originalTitle: string;
 
   @ManyToMany(() => Genre, (genre) => genre.movies)
   @JoinTable()
