@@ -80,9 +80,14 @@ src/
 git clone 'https://github.com/amrhossam97/TMDB.git'
 cd TMDB
 
+# Create your env file, then add your own TMDB keys and secrets
+cp .env.example .env
+
 # Build and run using Docker
 docker-compose up
 ```
+
+The API runs on `http://localhost:8080/tmdb-service/api` and the Swagger docs are at `http://localhost:8080/tmdb-service/docs/v1`.
 
 ---
 

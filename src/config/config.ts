@@ -29,7 +29,7 @@ class ConfigService {
   public getAxiosConfig(): Object {
     return {
       timeout: process.env.AXIOS_TIMEOUT,
-      maxRedirects: process.env.AXIOS_TIMEOUTAXIOS_REDIRECTS,
+      maxRedirects: process.env.AXIOS_REDIRECTS,
     };
   }
   public getRedisConfig() {
@@ -46,7 +46,7 @@ class ConfigService {
       username: this.getValue("POSTGRES_USER"),
       password: this.getValue("POSTGRES_PASSWORD"),
       database: this.getValue("POSTGRES_DATABASE"),
-      logging: !!this.getValue("LOGGING"),
+      logging: this.getValue("LOGGING", false) === "true",
       logger: "simple-console",
       migrationsTableName: "migration",
       migrationsRun: true,
